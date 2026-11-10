@@ -1,58 +1,80 @@
-from carga import Carga
 from generador import Generador
-from linea_transmision import LineaTransmision
 from sistema_potencia import SistemaPotencia
 
 
 def main():
     """
-    Ejecuta una prueba básica de las clases implementadas en el Hito 1.
+    Prueba del algoritmo de ordenamiento y despacho económico.
     """
-    print("Se cargan los datos a los elementos del sistema")
-    print()
 
     generador_1 = Generador(
         "G1",
         "Generador 1",
         100,
         25,
-        60
+        0
     )
 
-    carga_1 = Carga(
-        "C1",
-        "Carga 1",
-        50
+    generador_2 = Generador(
+        "G2",
+        "Generador 2",
+        80,
+        15,
+        0
     )
 
-    linea_1 = LineaTransmision(
-        "L1",
-        "Linea 1",
-        "Barra 1",
-        "Barra 2",
-        0.1
+    generador_3 = Generador(
+        "G3",
+        "Generador 3",
+        120,
+        40,
+        0
+    )
+
+    generador_4 = Generador(
+        "G4",
+        "Generador 4",
+        60,
+        10,
+        0
     )
 
     sistema = SistemaPotencia()
 
     sistema.agregar_elemento(generador_1)
-    sistema.agregar_elemento(carga_1)
-    sistema.agregar_elemento(linea_1)
+    sistema.agregar_elemento(generador_2)
+    sistema.agregar_elemento(generador_3)
+    sistema.agregar_elemento(generador_4)
 
-    sistema.consultar_elementos()
-    print()
+    print("Generadores ordenados por costo:")
 
-    print("Prueba de encapsulamiento:")
-    print()
+    generadores_ordenados = sistema.ordenar_generadores_por_costo()
 
-    print("Potencia inicial:")
-    print(generador_1.get_potencia())
+    for generador in generadores_ordenados:
+        print(
+            generador.get_id(),
+            generador.get_costo_operativo()
+        )
 
-    print("\nIntentando asignar 120 MW:")
-    generador_1.set_potencia(120)
+    print("\nDespacho económico:")
 
-    print("\nPotencia después del intento:")
-    print(generador_1.get_potencia())
+    demanda_total = 180
+
+    despacho = sistema.despacho_economico(
+        demanda_total
+    )
+
+    print(f"Demanda total: {demanda_total} MW")
+
+    for unidad in despacho:
+        print(
+            unidad["id"],
+            "- Costo:",
+            unidad["costo"],
+            "- Potencia:",
+            unidad["potencia"],
+            "MW"
+        )
 
 
 if __name__ == "__main__":
