@@ -1,80 +1,47 @@
 from generador import Generador
 from sistema_potencia import SistemaPotencia
+from nodo import Nodo
 
 
 def main():
     """
-    Prueba del algoritmo de ordenamiento y despacho económico.
+    Prueba de que funciona bien la Tabla Hash y busqueda
     """
+    print("\nPrueba de Tabla Hash:")
+    print()
 
-    generador_1 = Generador(
-        "G1",
-        "Generador 1",
-        100,
-        25,
-        0
+    nodo_1 = Nodo(
+        "Barra_Quillota",
+        "Barra Quillota"
     )
 
-    generador_2 = Generador(
-        "G2",
-        "Generador 2",
-        80,
-        15,
-        0
+    nodo_2 = Nodo(
+        "Barra_Charrua",
+        "Barra Charrúa"
     )
 
-    generador_3 = Generador(
-        "G3",
-        "Generador 3",
-        120,
-        40,
-        0
+    nodo_3 = Nodo(
+        "Barra_AltoJahuel",
+        "Barra Alto Jahuel"
     )
 
-    generador_4 = Generador(
-        "G4",
-        "Generador 4",
-        60,
-        10,
-        0
-    )
+    sistema_nodos = SistemaPotencia()
 
-    sistema = SistemaPotencia()
+    sistema_nodos.agregar_nodo(nodo_1)
+    sistema_nodos.agregar_nodo(nodo_2)
+    sistema_nodos.agregar_nodo(nodo_3)
 
-    sistema.agregar_elemento(generador_1)
-    sistema.agregar_elemento(generador_2)
-    sistema.agregar_elemento(generador_3)
-    sistema.agregar_elemento(generador_4)
+    print("Nodos almacenados:")
+    sistema_nodos.consultar_nodos()
 
-    print("Generadores ordenados por costo:")
+    print("\nBuscar Barra_Charrua:")
 
-    generadores_ordenados = sistema.ordenar_generadores_por_costo()
+    nodo_buscado = sistema_nodos.buscar_nodo("Barra_Charrua")
 
-    for generador in generadores_ordenados:
-        print(
-            generador.get_id(),
-            generador.get_costo_operativo()
-        )
-
-    print("\nDespacho económico:")
-
-    demanda_total = 180
-
-    despacho = sistema.despacho_economico(
-        demanda_total
-    )
-
-    print(f"Demanda total: {demanda_total} MW")
-
-    for unidad in despacho:
-        print(
-            unidad["id"],
-            "- Costo:",
-            unidad["costo"],
-            "- Potencia:",
-            unidad["potencia"],
-            "MW"
-        )
+    if nodo_buscado is not None:
+        print(nodo_buscado.obtener_datos())
+    else:
+        print("Nodo no encontrado.")
 
 
 if __name__ == "__main__":
