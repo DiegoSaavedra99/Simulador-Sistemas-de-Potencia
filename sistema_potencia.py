@@ -1,24 +1,26 @@
 from elemento_red import ElementoRed
 from generador import Generador
-
+from nodo import Nodo
 
 class SistemaPotencia:
     """
-    Clase gestora encargada de administrar los elementos de la red.
+    Clase gestora encargada de administrar los elementos de la red
 
-    Esta clase no hereda de ElementoRed, ya que no representa un componente
-    físico de la red; solo administra el conjunto de elementos existentes.
+    Recordemos que esta clase no hereda de ElementoRed, ya que no representa un
+    componente físico de la red, solo administra el conjunto de elementos existentes
+
     """
 
     def __init__(self):
         self.__elementos = []
+        self.__nodos = {}
 
     def get_elementos(self):
         """
-        Retorna la lista de elementos del sistema.
+        Retorna la lista de elementos del sistema
 
-        Returns:
-            list: Lista de elementos de la red.
+        Return:
+          list: Lista de elementos de la red
         """
         return self.__elementos
 
@@ -28,6 +30,7 @@ class SistemaPotencia:
 
         Atributos:
             elemento (ElementoRed): Elemento que se desea incorporar al sistema.
+
         """
         if isinstance(elemento, ElementoRed):
             self.__elementos.append(elemento)
@@ -36,10 +39,72 @@ class SistemaPotencia:
 
     def consultar_elementos(self):
         """
-        Muestra los elementos almacenados en el sistema de potencia.
+        Muestra los elementos almacenados en el sistema de potencia
         """
         for elemento in self.__elementos:
             print(elemento.obtener_datos())
+
+# Aqui agregamos nuevos metodos de la clase nodos.
+
+    def get_nodos(self):
+        """
+        Retorna el diccionario de nodos del sistema.
+
+        Returns:
+           dict: Diccionario de nodos.
+        """
+        return self.__nodos
+
+
+    def agregar_nodo(self, nodo):
+        """
+        Agrega un nodo al sistema utilizando su identificador
+        único como clave del diccionario.
+
+        Atributos:
+            nodo (Nodo): Nodo que se desea agregar.
+        """
+
+        if isinstance(nodo, Nodo):
+
+            id_nodo = nodo.get_id()
+
+            if id_nodo not in self.__nodos:
+                self.__nodos[id_nodo] = nodo
+
+            else:
+                print("Error: ya existe un nodo con el identificador "f"{id_nodo}.")
+
+        else:
+            print("Error: el objeto debe ser de tipo Nodo.")
+
+
+    def buscar_nodo(self, id_nodo):
+        """
+        Busca un nodo mediante su identificador único.
+
+        Atributos:
+            id_nodo (str): Identificador del nodo buscado.
+
+        Returns:
+            Nodo: Nodo encontrado.
+            None: Si el nodo no existe.
+        """
+
+        return self.__nodos.get(id_nodo)
+
+
+    def consultar_nodos(self):
+        """
+        Muestra todos los nodos almacenados en el sistema.
+        """
+
+        for nodo in self.__nodos.values():
+            print(nodo.obtener_datos())
+
+
+
+# Aqui implementamos el algoritmo de ordenamiento de los generadores (Merge Sort)       
 
     def obtener_generadores(self):
         """
